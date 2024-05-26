@@ -32,4 +32,5 @@ jobs:
           name: tdk-${{ matrix.engine }}
           path: |
             elteiktdk_en.pdf
+            presentation.pdf
           if-no-files-found: error
