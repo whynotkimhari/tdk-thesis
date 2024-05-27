@@ -61,6 +61,14 @@
 		\tableofcontents[currentsection]
 	\end{frame}
 	
+	\begin{frame}{Motivation: Cross-correlation to NASDAQ}
+		\centerline{\includegraphics[width=0.85\textwidth]{images/nas_base.eps}}
+	\end{frame}
+	
+	\begin{frame}{Motivation: Cross-correlation to Exxon Mobil}
+		\centerline{\includegraphics[width=0.85\textwidth]{images/exx_base.eps}}
+	\end{frame}
+	
 	\subsection{Motivation}
 	\begin{frame}{Motivation}
 		\begin{block}{By other works}
@@ -95,14 +103,6 @@
 				\item Stocks having similar trend is more promising
 			\end{itemize}
 		\end{block}
-	\end{frame}
-	
-	\begin{frame}{Motivation: Cross-correlation to NASDAQ}
-		\centerline{\includegraphics[width=0.85\textwidth]{images/nas_base.eps}}
-	\end{frame}
-	
-	\begin{frame}{Motivation: Cross-correlation to Exxon Mobil}
-		\centerline{\includegraphics[width=0.85\textwidth]{images/exx_base.eps}}
 	\end{frame}
 	
 	\subsection{Related work}
@@ -173,31 +173,6 @@
 				\item \structure{Geometry Mean Not NaN (GMNN)}: Combining multiple datasets
 			\end{itemize}
 		\end{block}
-	\end{frame}
-	
-	\begin{frame}{Preprocessing data: But... What is GMNN?}
-		\begin{columns}
-			\begin{column}{0.5\textwidth}
-				\includegraphics[width=\textwidth]{images/gmnn.eps}
-			\end{column}
-			\begin{column}{0.5\textwidth}
-				\begin{block}{GMNN Attributes}
-					\begin{itemize}
-						\item \structure{Union}: Handling length difference when combining datasets
-						\smallskip
-						
-						\item \structure{Invariant}: Keeping the data stays normalized
-						\smallskip
-						
-						\item \structure{Representation}: The output reflects the whole datasets
-						\smallskip
-					\end{itemize}
-				\end{block}
-				\vspace*{1cm}
-			\end{column}
-		\end{columns}
-		\bigskip
-		\centerline{A simple sample of applying GMNN transformation}
 	\end{frame}
 	
 	\subsection{Model architecture}
@@ -306,20 +281,6 @@
 		\tableofcontents[currentsection]
 	\end{frame}
 	
-	\begin{frame}{Results}
-		\begin{columns}
-			\begin{column}{0.5\textwidth}
-				\centerline{\includegraphics[width=1.12\textwidth]{images/exxon-big.eps}}
-			\end{column}
-			\begin{column}{0.5\textwidth}
-				\centerline{\includegraphics[width=1.12\textwidth]{images/nasdaq-big.eps}}
-			\end{column}
-		\end{columns}
-		
-		\smallskip
-		\centerline{Comparing 6 metrics with respect to Exxon (Left), NASDAQ (Right)}
-	\end{frame}
-	
 	\begin{frame}
 		\frametitle{Conclusion}
 		\begin{block}{Conclusion}
@@ -344,6 +305,20 @@
 			\end{itemize}
 			\smallskip
 		\end{block}
+	\end{frame}
+	
+	\begin{frame}{Results}
+		\begin{columns}
+			\begin{column}{0.5\textwidth}
+				\centerline{\includegraphics[width=1.12\textwidth]{images/exxon-big.eps}}
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				\centerline{\includegraphics[width=1.12\textwidth]{images/nasdaq-big.eps}}
+			\end{column}
+		\end{columns}
+		
+		\smallskip
+		\centerline{Comparing 6 metrics with respect to Exxon (Left), NASDAQ (Right)}
 	\end{frame}
 	
 	\section{Summary}
@@ -384,5 +359,78 @@
 			[sep=8pt,center,shadow=true,rounded=true]{title} \usebeamerfont{title}Thank
 			you for your attention!\par%
 		\end{beamercolorbox}
+	\end{frame}
+	
+	\begin{frame}{But... What is GMNN?}
+		\begin{columns}
+			\begin{column}{0.5\textwidth}
+				\includegraphics[width=\textwidth]{images/gmnn.eps}
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				\begin{block}{GMNN Attributes}
+					\begin{itemize}
+						\item \structure{Union}: Handling length difference when combining datasets
+						\smallskip
+						
+						\item \structure{Invariant}: Keeping the data stays normalized
+						\smallskip
+						
+						\item \structure{Representation}: The output reflects the whole datasets
+						\smallskip
+					\end{itemize}
+				\end{block}
+				\vspace*{1cm}
+			\end{column}
+		\end{columns}
+		\bigskip
+		\centerline{A simple sample of applying GMNN transformation}
+	\end{frame}
+	
+	\begin{frame}{But... What is Time2Vec\footnote[1]{Seyed Mehran Kazemi et al. “Time2Vec: Learning a Vector Representation of
+				Time” (2019)}?}
+		
+		\begin{block}{Time2Vec}
+			An approach providing a model – agnostic vector representation for time
+		\end{block}
+		
+		\begin{block}{Time2Vec Function}
+			\centering{
+				$\textbf{t2v}(\tau)[i]=\left\{\begin{array}{cc}w_i \tau+\varphi_i & \text { if } i=0 \\ F \left(w_i \tau+\varphi_i\right), & \text { if } 1 \leq i \leq k\end{array}\right.$
+			}
+			
+			\smallskip
+			
+			$w, \varphi$: learnable parameters \space $\tau$: time
+			
+			$F$: periodic activation function (eg. $\sin, \cos$)
+		\end{block}
+		
+		\begin{block}{Time2Vec Attributes}
+			\begin{itemize}
+				\item Capturing both periodic and non periodic patterns
+				
+				\item Being invariant to time re-scaling
+				
+				\item Being simple enough so it can be combined with many models
+			\end{itemize}
+		\end{block}
+	\end{frame}
+
+	\begin{frame}{Applications}
+		\begin{block}{Can it be used in production?}
+			Of course, but to be more accurate and precise, the architecture must be fine-tuned to fit the expectation
+		\end{block}
+		
+		\begin{exampleblock}{Is it easy to set up and use in production?}
+			Yes it is, developer just need to find the appropriate datasets and train the model
+		\end{exampleblock}
+		
+		\begin{block}{Can it be used in other areas?}
+			Yes it can be used in other areas, we just need to find the dimension sizes and appropriate hyper-parameters to fit the area expectation
+		\end{block}
+		
+		\begin{exampleblock}{Can it predict the tomorrow stock price?}
+			Yes it can, but we need to apply some more techniques to decode back to real values
+		\end{exampleblock}
 	\end{frame}
 \end{document}
