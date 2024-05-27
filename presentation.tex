@@ -415,6 +415,25 @@
 			\end{itemize}
 		\end{block}
 	\end{frame}
+	
+	\begin{frame}{Splitting data}
+		\begin{exampleblock}{Can we just put the processed data into model straight forward?}
+			No, we can not feed the whole data straight forward into the model, because that action will cause \textbf{over-fitting} problem which no one want it to be happened when training model
+		\end{exampleblock}
+		
+		\begin{block}{Do we need to shuffle the data before splitting?}
+			No, we don't want to shuffle the data because it has \textbf{continuous} attribute of time then shuffling will make the data lose this special and important property which cause a big problem for the model to learn the pattern
+		\end{block}
+		
+		\begin{exampleblock}{How will we feed input data to our model?}
+			We will split the data into three categories:
+			\begin{itemize}
+				\item \structure{Train}: The first 80\% data of the input
+				\item \structure{Validation}: The next 10\% data
+				\item \structure{Test}: The last 10\% data
+			\end{itemize}
+		\end{exampleblock}
+	\end{frame}
 
 	\begin{frame}{Applications}
 		\begin{block}{Can it be used in production?}
