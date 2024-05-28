@@ -452,4 +452,190 @@
 			Yes it can, but we need to apply some more techniques to decode back to real values
 		\end{exampleblock}
 	\end{frame}
+	
+	\begin{frame}{Questions}
+			\begin{block}{From the reviewer}
+			\begin{itemize}
+				\item \structure{Correlation method}: We use the default one in pandas (Pearson)
+				
+				\item \structure{Source of Equations and formulas in Decoding part}: They are just applying the reverse logic of how we coding it. That's why we don't use any citation for these in our thesis
+			\end{itemize}
+		\end{block}
+	\end{frame}
+	
+	\begin{frame}{Explain correlation method}
+		\begin{block}{Pearson}
+			Considering two time series $y(t)$ and $x(t)$ with an equal length of $T$ ($1 < t < T$), the Pearson's correlation coefficient between the series is defined as
+			
+			\bigskip
+			
+			\centerline{$\rho=\frac{\sum_{t=1}^{t=T}(x(t)-\bar{x})(y(t)-\bar{y})}{\sqrt{\sum_{t=1}^{t=T}(x(t)-\bar{x})^2} \sqrt{\sum_{t=1}^{t=T}(y(t)-\bar{y})^2}}$}
+			\bigskip
+			where $\bar{x}$ and $\bar{y}$ are average values over the whole series
+			
+			\smallskip
+			
+			A higher value of Pearson’s correlation coefficient $\rho$ positively corresponds with the stronger correlation degree, thereby indicating a stronger mutual interpretation ability between $y(t)$ and $x(t)$ 
+		\end{block}
+		
+		\begin{exampleblock}{}
+			However, when time series are nonstationary and nonlinear, the Pearson's correlation coefficient cannot represent a reliable correlation degree because the observational values in the time series probably rely on each other.
+		\end{exampleblock}
+		
+	\end{frame}
+	
+	\begin{frame}{Explain used techniques: De-normalized}
+		\begin{block}{De-normalized step}
+			\centerline{$x_{pct}=x_{nor}\times(max-min)+min \label{de-nor}$}
+			\bigskip
+			
+			\centerline{Is from}
+			
+			\bigskip
+			\centerline{$x_{standarlized}=\frac{x-\min (x)}{\max (x)-\min (x)}$}
+			
+			\smallskip
+			Where:
+			
+			\begin{itemize}
+				\item $x_{pct}$ has the same role with $x$
+				\item $x_{nor}$ has the same role with $x_{standardlized}$
+				\item $max$ is stored value of $\max(x)$
+				\item $min$ is stored value of $\min(x)$
+			\end{itemize}
+		\end{block}
+		
+		\begin{exampleblock}{But... why?}
+			Because
+			\begin{itemize}
+				\item Before standardlizing, our x is currently percentage-changed
+			\end{itemize}
+		\end{exampleblock}
+	\end{frame}
+	
+	\begin{frame}{Explain used techniques: De-percentage change - Problem}
+		\begin{block}{De-percentage change step}
+			This is the way we \textbf{create} to get high accuracy predict values by pairing with real values to decode
+			
+			Why? Let's see how we encode percentage change
+		\end{block}
+		\smallskip
+		\centerline{\includegraphics[width=\textwidth]{images/enc_percent.eps}}
+		\bigskip
+		\begin{exampleblock}{This lead to a problem!}
+			We lost one data cell
+		\end{exampleblock}
+	\end{frame}
+	
+	\begin{frame}{Explain used techniques: De-percentage change - Plan A}
+		\begin{block}{Plan A to fix}
+			This plan will cause a very big mistake when converting back to real prices because it one predict is not good, the next ones will be affected too!
+		\end{block}
+		\smallskip
+		\centerline{\includegraphics[width=\textwidth]{images/dec_percent_bad.eps}}
+		\bigskip
+		\begin{exampleblock}{Any plan else?}
+			Yes, we will see plan B - which will be better, and that is also the one we proposed in the thesis
+		\end{exampleblock}
+	\end{frame}
+	
+	\begin{frame}{Explain used techniques: De-percentage change - Plan B}
+		\begin{block}{Plan B to fix}
+			This plan yields very good result in converting back to real values, because each cell is only related to the real one and/or the predict one - which is more realistic than plan A
+		\end{block}
+		\smallskip
+		\centerline{\includegraphics[width=\textwidth]{images/dec_percent_good.eps}}
+	\end{frame}
+	
+	\begin{frame}{Explain used techniques: De-percentage change - Formula}
+		\begin{block}{Formula for plan B}
+			\centerline{$
+				x_{mva}=\left\{
+				\begin{array}{l}
+					v_{mva}, i=0                                    \\
+					v_{mva} \times\left(1+x_{pct}\right), otherwise
+				\end{array}\right.
+			$}
+			
+			\smallskip
+			
+			\centerline{Is from}
+			
+			\smallskip
+			
+			\centerline{$x_{pct}=\frac{x_b - x_a}{x_a}$}
+			
+			\smallskip
+			Where:
+			
+			\begin{itemize}
+				\item $x_a$, $x_b$: is two consecutive moving average values ($x_b$ after $x_a$)
+				\item $x_{pct}$ has the same meaning in two equation
+				\item $x_{mva}$ has the same role with $x_a$, $x_b$ 
+				
+					($x_{mva}$ is a vector; $x_a$, $x_b$ are numbers)
+				\item $v_{mva}$ is real moving average values (from encoding part)
+			\end{itemize}
+		\end{block}
+		
+		\begin{exampleblock}{Disclaimer}
+			We have a typo in our thesis in this step. We messed up between $v_{vma}$ with $v_{pct}$
+		\end{exampleblock}
+	\end{frame}
+	
+	\begin{frame}{Explain used techniques: De-moving average - Problem}
+		\begin{block}{De-moving average step}
+			This is the way we \textbf{came up with} to get high accuracy predict values by pairing with real values to decode
+			
+			Why? Let's see how we apply moving average with step equals 14 days
+		\end{block}
+		\smallskip
+		\centerline{\includegraphics[width=\textwidth]{images/enc_moving.eps}}
+		\bigskip
+		\begin{exampleblock}{This lead to a problem!}
+			We lost the first 13 data cells
+		\end{exampleblock}
+	\end{frame}
+	
+	\begin{frame}{Explain used techniques: De-moving average - Fix the problem}
+		\begin{block}{De-moving average step}
+			This method yields very good result in converting back to real values, because each cell is only related to the real one and/or the predict one
+		\end{block}
+		\smallskip
+		\centerline{\includegraphics[width=\textwidth]{images/dec_moving.eps}}
+		\bigskip
+	\end{frame}
+	
+	\begin{frame}{Explain used techniques: De-moving average - Formula}
+		\begin{block}{Formula}
+			\centerline{$
+				x_{close}=
+				\begin{cases}
+					v_{close}        & , i \leq 13                               \\
+					x_{mva}\times 14 & - \sum_{k=i-14}^{i-1}v_{close}, i \geq 14
+				\end{cases}
+				$}
+			
+			\smallskip
+			
+			\centerline{Is from}
+			
+			\smallskip
+			
+			\centerline{$mva=1/14 * \sum_{0}^{13}close$}
+			
+			\smallskip
+			Where:
+			
+			\begin{itemize}
+				\item $x_{vma}$: has the predict moving average prices 
+				
+					(from the De-percentage change step)
+					
+				\item $mva$: real moving average prices
+				\item $v_{close}$, $close$: has the same meaning in two equation, real close prices
+			\end{itemize}
+			
+		\end{block}
+	\end{frame}
 \end{document}
