@@ -16,6 +16,7 @@
 	\expandafter\beamer@ifempty\expandafter{\beamer@framestartpage}{}% does not happen normally
 	{%else
 		
+		
 		% removed \addtocontents commands
 		\clearpage\beamer@notesactions%
 } }
@@ -386,17 +387,15 @@
 		\centerline{A simple sample of applying GMNN transformation}
 	\end{frame}
 	
-	\begin{frame}{But... What is Time2Vec\footnote[1]{Seyed Mehran Kazemi et al. “Time2Vec: Learning a Vector Representation of
-				Time” (2019)}?}
-		
+	\begin{frame}{But... What is Time2Vec\footnote[1]{Seyed Mehran Kazemi et al. “Time2Vec:
+				Learning a Vector Representation of Time” (2019)}?}
 		\begin{block}{Time2Vec}
 			An approach providing a model – agnostic vector representation for time
 		\end{block}
 		
 		\begin{block}{Time2Vec Function}
-			\centering{
-				$\textbf{t2v}(\tau)[i]=\left\{\begin{array}{cc}w_i \tau+\varphi_i & \text { if } i=0 \\ F \left(w_i \tau+\varphi_i\right), & \text { if } 1 \leq i \leq k\end{array}\right.$
-			}
+			\centering
+			{ $\textbf{t2v}(\tau)[i]=\left\{\begin{array}{cc}w_i \tau+\varphi_i & \text{ if } i=0 \\ F \left(w_i \tau+\varphi_i\right), & \text{ if } 1 \leq i \leq k\end{array}\right.$ }
 			
 			\smallskip
 			
@@ -417,71 +416,89 @@
 	\end{frame}
 	
 	\begin{frame}{Splitting data}
-		\begin{exampleblock}{Can we just put the processed data into model straight forward?}
-			No, we can not feed the whole data straight forward into the model, because that action will cause \textbf{over-fitting} problem which no one want it to be happened when training model
+		\begin{exampleblock}{Can we just put the processed data into model straight
+				forward?}
+			No, we can not feed the whole data straight forward into the model, because
+			that action will cause \textbf{over-fitting} problem which no one want it
+			to be happened when training model
 		\end{exampleblock}
 		
 		\begin{block}{Do we need to shuffle the data before splitting?}
-			No, we don't want to shuffle the data because it has \textbf{continuous} attribute of time then shuffling will make the data lose this special and important property which cause a big problem for the model to learn the pattern
+			No, we don't want to shuffle the data because it has \textbf{continuous} attribute
+			of time then shuffling will make the data lose this special and important property
+			which cause a big problem for the model to learn the pattern
 		\end{block}
 		
 		\begin{exampleblock}{How will we feed input data to our model?}
 			We will split the data into three categories:
 			\begin{itemize}
 				\item \structure{Train}: The first 80\% data of the input
+				
 				\item \structure{Validation}: The next 10\% data
+				
 				\item \structure{Test}: The last 10\% data
 			\end{itemize}
 		\end{exampleblock}
 	\end{frame}
-
+	
 	\begin{frame}{Applications}
 		\begin{block}{Can it be used in production?}
-			Of course, but to be more accurate and precise, the architecture must be fine-tuned to fit the expectation
+			Of course, but to be more accurate and precise, the architecture must be fine-tuned
+			to fit the expectation
 		\end{block}
 		
 		\begin{exampleblock}{Is it easy to set up and use in production?}
-			Yes it is, developer just need to find the appropriate datasets and train the model
+			Yes it is, developer just need to find the appropriate datasets and train
+			the model
 		\end{exampleblock}
 		
 		\begin{block}{Can it be used in other areas?}
-			Yes it can be used in other areas, we just need to find the dimension sizes and appropriate hyper-parameters to fit the area expectation
+			Yes it can be used in other areas, we just need to find the dimension
+			sizes and appropriate hyper-parameters to fit the area expectation
 		\end{block}
 		
 		\begin{exampleblock}{Can it predict the tomorrow stock price?}
-			Yes it can, but we need to apply some more techniques to decode back to real values
+			Yes it can, but we need to apply some more techniques to decode back to
+			real values
 		\end{exampleblock}
 	\end{frame}
 	
 	\begin{frame}{Questions}
-			\begin{block}{From the reviewer}
+		\begin{block}{From the reviewer}
 			\begin{itemize}
 				\item \structure{Correlation method}: We use the default one in pandas (Pearson)
 				
-				\item \structure{Source of Equations and formulas in Decoding part}: They are just applying the reverse logic of how we coding it. That's why we don't use any citation for these in our thesis
+				\item \structure{Source of Equations and formulas in Decoding part}: They
+				are just applying the reverse logic of how we coding it. That's why we
+				don't use any citation for these in our thesis
 			\end{itemize}
 		\end{block}
 	\end{frame}
 	
 	\begin{frame}{Explain correlation method}
 		\begin{block}{Pearson}
-			Considering two time series $y(t)$ and $x(t)$ with an equal length of $T$ ($1 < t < T$), the Pearson's correlation coefficient between the series is defined as
+			Considering two time series $y(t)$ and $x(t)$ with an equal length of $T$ ($1
+			< t < T$), the Pearson's correlation coefficient between the series is
+			defined as
 			
 			\bigskip
 			
-			\centerline{$\rho=\frac{\sum_{t=1}^{t=T}(x(t)-\bar{x})(y(t)-\bar{y})}{\sqrt{\sum_{t=1}^{t=T}(x(t)-\bar{x})^2} \sqrt{\sum_{t=1}^{t=T}(y(t)-\bar{y})^2}}$}
+			\centerline{$\rho=\frac{\sum_{t=1}^{t=T}(x(t)-\bar{x})(y(t)-\bar{y})}{\sqrt{\sum_{t=1}^{t=T}(x(t)-\bar{x})^{2}} \sqrt{\sum_{t=1}^{t=T}(y(t)-\bar{y})^{2}}}$}
 			\bigskip
 			where $\bar{x}$ and $\bar{y}$ are average values over the whole series
 			
 			\smallskip
 			
-			A higher value of Pearson’s correlation coefficient $\rho$ positively corresponds with the stronger correlation degree, thereby indicating a stronger mutual interpretation ability between $y(t)$ and $x(t)$ 
+			A higher value of Pearson’s correlation coefficient $\rho$ positively corresponds
+			with the stronger correlation degree, thereby indicating a stronger mutual
+			interpretation ability between $y(t)$ and $x(t)$
 		\end{block}
 		
 		\begin{exampleblock}{}
-			However, when time series are nonstationary and nonlinear, the Pearson's correlation coefficient cannot represent a reliable correlation degree because the observational values in the time series probably rely on each other.
+			However, when time series are nonstationary and nonlinear, the Pearson's correlation
+			coefficient cannot represent a reliable correlation degree because the observational
+			values in the time series probably rely on each other.
 		\end{exampleblock}
-		
 	\end{frame}
 	
 	\begin{frame}{Explain used techniques: De-normalized}
@@ -499,8 +516,11 @@
 			
 			\begin{itemize}
 				\item $x_{pct}$ has the same role with $x$
+				
 				\item $x_{nor}$ has the same role with $x_{standardlized}$
+				
 				\item $max$ is stored value of $\max(x)$
+				
 				\item $min$ is stored value of $\min(x)$
 			\end{itemize}
 		\end{block}
@@ -508,14 +528,15 @@
 		\begin{exampleblock}{But... why?}
 			Because
 			\begin{itemize}
-				\item Before standardlizing, our x is currently percentage-changed
+				\item Before standardlizing, our $x$ is currently percentage-changed
 			\end{itemize}
 		\end{exampleblock}
 	\end{frame}
 	
 	\begin{frame}{Explain used techniques: De-percentage change - Problem}
 		\begin{block}{De-percentage change step}
-			This is the way we \textbf{create} to get high accuracy predict values by pairing with real values to decode
+			This is the way we \textbf{create} to get high accuracy predict values by
+			pairing with real values to decode
 			
 			Why? Let's see how we encode percentage change
 		\end{block}
@@ -529,19 +550,23 @@
 	
 	\begin{frame}{Explain used techniques: De-percentage change - Plan A}
 		\begin{block}{Plan A to fix}
-			This plan will cause a very big mistake when converting back to real prices because it one predict is not good, the next ones will be affected too!
+			This plan will cause a very big mistake when converting back to real prices
+			because it one predict is not good, the next ones will be affected too!
 		\end{block}
 		\smallskip
 		\centerline{\includegraphics[width=\textwidth]{images/dec_percent_bad.eps}}
 		\bigskip
 		\begin{exampleblock}{Any plan else?}
-			Yes, we will see plan B - which will be better, and that is also the one we proposed in the thesis
+			Yes, we will see plan B - which will be better, and that is also the one we
+			proposed in the thesis
 		\end{exampleblock}
 	\end{frame}
 	
 	\begin{frame}{Explain used techniques: De-percentage change - Plan B}
 		\begin{block}{Plan B to fix}
-			This plan yields very good result in converting back to real values, because each cell is only related to the real one and/or the predict one - which is more realistic than plan A
+			This plan yields very good result in converting back to real values,
+			because each cell is only related to the real one and/or the predict one -
+			which is more realistic than plan A
 		\end{block}
 		\smallskip
 		\centerline{\includegraphics[width=\textwidth]{images/dec_percent_good.eps}}
@@ -549,13 +574,7 @@
 	
 	\begin{frame}{Explain used techniques: De-percentage change - Formula}
 		\begin{block}{Formula for plan B}
-			\centerline{$
-				x_{mva}=\left\{
-				\begin{array}{l}
-					v_{mva}, i=0                                    \\
-					v_{mva} \times\left(1+x_{pct}\right), otherwise
-				\end{array}\right.
-			$}
+			\centerline{$x_{mva}=\left\{ \begin{array}{l}v_{mva}, i=0 \\ v_{mva} \times\left(1+x_{pct}\right), otherwise\end{array}\right.$}
 			
 			\smallskip
 			
@@ -563,29 +582,35 @@
 			
 			\smallskip
 			
-			\centerline{$x_{pct}=\frac{x_b - x_a}{x_a}$}
+			\centerline{$x_{pct}=\frac{x_{b} - x_{a}}{x_{a}}$}
 			
 			\smallskip
 			Where:
 			
 			\begin{itemize}
-				\item $x_a$, $x_b$: is two consecutive moving average values ($x_b$ after $x_a$)
-				\item $x_{pct}$ has the same meaning in two equation
-				\item $x_{mva}$ has the same role with $x_a$, $x_b$ 
+				\item $x_{a}$, $x_{b}$: is two consecutive moving average values ($x_{b}$
+				after $x_{a}$)
 				
-					($x_{mva}$ is a vector; $x_a$, $x_b$ are numbers)
+				\item $x_{pct}$ has the same meaning in two equation
+				
+				\item $x_{mva}$ has the same role with $x_{a}$, $x_{b}$
+				
+				($x_{mva}$ is a vector; $x_{a}$, $x_{b}$ are numbers)
+				
 				\item $v_{mva}$ is real moving average values (from encoding part)
 			\end{itemize}
 		\end{block}
 		
 		\begin{exampleblock}{Disclaimer}
-			We have a typo in our thesis in this step. We messed up between $v_{vma}$ with $v_{pct}$
+			We have a typo in our thesis in this step. We messed up between $v_{vma}$
+			with $v_{pct}$
 		\end{exampleblock}
 	\end{frame}
 	
 	\begin{frame}{Explain used techniques: De-moving average - Problem}
 		\begin{block}{De-moving average step}
-			This is the way we \textbf{came up with} to get high accuracy predict values by pairing with real values to decode
+			This is the way we \textbf{came up with} to get high accuracy predict
+			values by pairing with real values to decode
 			
 			Why? Let's see how we apply moving average with step equals 14 days
 		\end{block}
@@ -599,7 +624,8 @@
 	
 	\begin{frame}{Explain used techniques: De-moving average - Fix the problem}
 		\begin{block}{De-moving average step}
-			This method yields very good result in converting back to real values, because each cell is only related to the real one and/or the predict one
+			This method yields very good result in converting back to real values,
+			because each cell is only related to the real one and/or the predict one
 		\end{block}
 		\smallskip
 		\centerline{\includegraphics[width=\textwidth]{images/dec_moving.eps}}
@@ -608,13 +634,7 @@
 	
 	\begin{frame}{Explain used techniques: De-moving average - Formula}
 		\begin{block}{Formula}
-			\centerline{$
-				x_{close}=
-				\begin{cases}
-					v_{close}        & , i \leq 13                               \\
-					x_{mva}\times 14 & - \sum_{k=i-14}^{i-1}v_{close}, i \geq 14
-				\end{cases}
-				$}
+			\centerline{$x_{close}= \begin{cases}v_{close}&, i \leq 13 \\ x_{mva}\times 14&- \sum_{k=i-14}^{i-1}v_{close}, i \geq 14\end{cases}$}
 			
 			\smallskip
 			
@@ -628,14 +648,15 @@
 			Where:
 			
 			\begin{itemize}
-				\item $x_{vma}$: has the predict moving average prices 
+				\item $x_{vma}$: has the predict moving average prices
 				
-					(from the De-percentage change step)
-					
+				(from the De-percentage change step)
+				
 				\item $mva$: real moving average prices
-				\item $v_{close}$, $close$: has the same meaning in two equation, real close prices
+				
+				\item $v_{close}$, $close$: has the same meaning in two equation, real
+				close prices
 			\end{itemize}
-			
 		\end{block}
 	\end{frame}
 \end{document}
