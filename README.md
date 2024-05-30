@@ -16,6 +16,9 @@ I use [TexStudio](https://www.texstudio.org/) and [Overleaf](https://www.overlea
 
 - Models: This folder contains models that we trained and used. Models are splited into 2 groups that mentioned in [the thesis](https://github.com/whynotkimhari/tdk-thesis/blob/master/elteiktdk_en.pdf).
 
+# Results
+- Third Prize in ELTE TDK 2024 spring
+
 # Citations
 
 ```bash
